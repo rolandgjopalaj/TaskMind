@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from database import get_connection, init_db
+from ai_service import classify_task_AI
 
 app = FastAPI()
 init_db()
@@ -38,4 +39,37 @@ def create_task(task: TaskCreate):
     new_id = cursor.lastrowid
     row = conn.execute("SELECT * FROM tasks WHERE id = ?", (new_id,)).fetchone()
     conn.close()
+    return dict(row)
+
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id: int):
+    conn = get_connection()
+    result = conn.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+    conn.commit()
+    conn.close()
+    if result.rowcount == 0:
+        print("Task da eliminare non trovato!")
+        raise HTTPException(status_code=404, detail="Task non trovato!")
+    return {"message": "Task eliminato"}
+
+@app.put("/tasks/{task_id}")
+def update_tasks(task_id: int):
+    conn = get_connection()
+    my_task = conn.execute("SELECT description FROM tasks WHERE id = ?", (task_id,)).fetchone()
+    if not my_task:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Task non trovato!")
+
+    #estrare la desrizione
+    description = dict(my_task)["description"]
+    #classificare con AI (in piu anche la priorita') 
+    classification = classify_task_AI(description)
+
+    conn.execute(
+        "UPDATE tasks SET category = ?, priority = ? WHERE id = ?",
+        (classification["category"], classification["priority"], task_id)
+    )
+    conn.commit()
+    row = conn.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
+    conn.close
     return dict(row)

@@ -4,7 +4,7 @@ import ollama
 MODEL_NAME = "llama3.2"
 
 
-def classify_task(description: str) -> dict:
+def classify_task_AI(description: str) -> dict:
     prompt = f"""Classifica il seguente task in:
 - una categoria tra: lavoro, personale, studio, urgente
 - una priorità tra: bassa, media, alta
@@ -33,6 +33,3 @@ Rispondi SOLO con un oggetto JSON in questo formato esatto, senza altro testo, s
         }
     except json.JSONDecodeError:
         return {"category": "personale", "priority": "media"}
-
-
-print(classify_task("Scrivere alle aziende per trovare un lavoro"))
