@@ -5,7 +5,7 @@ from database import get_connection, init_db
 app = FastAPI()
 init_db()
 
-# --- Schemi per validare l'input (questi restano, non c'entrano con SQLAlchemy) ---
+# --- Schemi per validare l'input 
 class TaskCreate(BaseModel):
     title: str
     description: str | None = None
