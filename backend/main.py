@@ -1,10 +1,21 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import get_connection, init_db
 from ai_service import classify_task_AI, classify_task_MyAiModel
 
-app = FastAPI()
+
 init_db()
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # --- Schemi per validare l'input 
 class TaskCreate(BaseModel):

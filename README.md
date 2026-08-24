@@ -65,6 +65,7 @@ Il database (`database.py`) è una semplice tabella SQLite con titolo, descrizio
 ## Come avviare il progetto
 
 ```
+source venv/bin/activate
 uvicorn main:app --reload     # avvia il server API
 ollama serve                  # se si vuole usare la classificazione via LLM
 ```
