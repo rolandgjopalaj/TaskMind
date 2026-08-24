@@ -1,6 +1,13 @@
 # TaskMind
 
+<<<<<<< HEAD
 Un'app per gestire attività ("task") scritte in linguaggio naturale. L'utente scrive cosa deve fare, e il sistema capisce da solo a che **categoria** appartiene il task (lavoro, personale, studio, urgente).
+=======
+##Istruzioni
+uvicorn main:app --reload     //per attivare il server in ascolto
+
+ollama serve                  //per attivare il modello ai llama
+>>>>>>> 327575ba6a96148dbdd666ef3ae69ff40d9ab605
 
 ## Come funziona, in breve
 
@@ -9,6 +16,7 @@ Un'app per gestire attività ("task") scritte in linguaggio naturale. L'utente s
 3. Quando lo si aggiorna, il testo della descrizione viene passato a un modello di intelligenza artificiale, che restituisce la categoria giusta.
 4. Il task viene aggiornato nel database con la categoria trovata.
 
+<<<<<<< HEAD
 ## Le due strade per la classificazione
 
 Nel progetto ci sono **due modi diversi** per classificare un task, entrambi implementati in `ai_service.py`:
@@ -85,3 +93,6 @@ ollama serve                  # se si vuole usare la classificazione via LLM
 - Scrivere test automatici con `pytest` per il backend.
 - Aggiungere anche la stima della **priorità** al modello personalizzato (per ora prevede solo la categoria).
 - Provare a mettere online il progetto (es. Azure) per avere un'esperienza pratica di deploy.
+=======
+###successivamente si usa lo script merge_csv.py per fare il merge di tutti i dataset generati e infine si ispeziona il dataset completo con ispeziona.py
+>>>>>>> 327575ba6a96148dbdd666ef3ae69ff40d9ab605
