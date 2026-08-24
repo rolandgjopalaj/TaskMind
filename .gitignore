@@ -1,4 +1,4 @@
 backend/.env
-backend/__pycash__
+backend/__pycache__
 backend/venv
-kot.py
+.gitignore
