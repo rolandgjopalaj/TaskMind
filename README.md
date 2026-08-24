@@ -3,6 +3,7 @@ Un'app di gestione attività dove l'utente scrive un task in linguaggio naturale
 
 ##Istruzioni
 uvicorn main:app --reload     //per attivare il server in ascolto
+
 ollama serve                  //per attivare il modello ai llama
 
 
