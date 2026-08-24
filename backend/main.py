@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from database import get_connection, init_db
-from ai_service import classify_task_AI
+from ai_service import classify_task_AI, classify_task_MyAiModel
 
 app = FastAPI()
 init_db()
@@ -25,6 +25,7 @@ def get_tasks(category: str | None = None):
         "SELECT * FROM tasks"
         ).fetchall()
     
+    conn.close()
     return [dict(row) for row in rows]
 
 @app.post("/tasks")
@@ -62,8 +63,8 @@ def update_tasks(task_id: int):
 
     #estrare la desrizione
     description = dict(my_task)["description"]
-    #classificare con AI (in piu anche la priorita') 
-    classification = classify_task_AI(description)
+    #classificare con AI 
+    classification = classify_task_MyAiModel(description)   #classify_task_AI(description) # llama
 
     conn.execute(
         "UPDATE tasks SET category = ?, priority = ? WHERE id = ?",

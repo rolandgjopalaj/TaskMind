@@ -1,7 +1,11 @@
 import json
 import ollama
+import joblib
 
 MODEL_NAME = "llama3.2"
+
+#Il mio modello di classificazione
+myAiModel = joblib.load("modelloAI/category_classifier_model.joblib")
 
 
 def classify_task_AI(description: str) -> dict:
@@ -33,3 +37,8 @@ Rispondi SOLO con un oggetto JSON in questo formato esatto, senza altro testo, s
         }
     except json.JSONDecodeError:
         return {"category": "personale", "priority": "media"}
+
+
+def classify_task_MyAiModel(description: str) -> dict:
+    category = myAiModel.predict([description]) #bisogna passare la descrizione come vettore di parole singole
+    return dict({"category": str(category[0]), "priority": ""})
