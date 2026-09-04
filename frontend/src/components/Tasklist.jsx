@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Task from "./Task";
 
 const API_URL = "http://127.0.0.1:8000";
 
@@ -12,24 +13,22 @@ function TaskList() {
   }, []);
 
   function fetchTasks() {
-    setLoading(true);
-    setError(null);
-
+    setLoading(true)
+    setError(null)
+    
     fetch(`${API_URL}/tasks`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Errore HTTP: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+    .then((res) => {
+      if(!res) throw new Error(`Errore HTTP: ${res.status}`)
+      return res.json()
+    }).then((data) => {
+        setTasks(data)
+        setLoading(false)
+    }).catch((err) => {
+      setError(err)
+      console.log(err.message)
+      setLoading(false)
+    })
+
   }
 
   if (loading) return <p>Caricamento task...</p>;
@@ -40,16 +39,15 @@ function TaskList() {
     <div>
       <h2>I miei task</h2>
       <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <strong>{task.title}</strong>
-            {task.description && <p>{task.description}</p>}
-            <small>
-              Categoria: {task.category || "non classificato"} | Priorità:{" "}
-              {task.priority || "-"} | Completato:{" "}
-              {task.completed ? "Sì" : "No"}
-            </small>
-          </li>
+        {tasks.map((task)=>(
+          <Task
+            id = {task.id}
+            title = {task.title}
+            description={task.description}
+            priority={task.priority}
+            category={task.category}
+            completed={task.completed}
+          />
         ))}
       </ul>
     </div>
