@@ -85,3 +85,20 @@ def update_tasks(task_id: int):
     row = conn.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
     conn.close()
     return dict(row)
+
+@app.patch("/tasks/{task_id}")
+def update_task_status(task_id: int):
+    conn = get_connection()
+    my_task = conn.execute("SELECT completed FROM tasks WHERE id = ?", (task_id,)).fetchone()
+    if not my_task:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Task not found")
+
+    completed = 1 if dict(my_task)["completed"] == 0 else 0
+
+    conn.execute("UPDATE tasks SET completed = ? WHERE id = ?", (completed, task_id))
+    conn.commit()
+
+    my_task = conn.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
+    conn.close()
+    return(dict(my_task))
