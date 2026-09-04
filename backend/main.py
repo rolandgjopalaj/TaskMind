@@ -30,7 +30,7 @@ class TaskUpdate(BaseModel):
 
 # ---------------- inizio delle chiamate ------------------
 @app.get("/tasks")
-def get_tasks(category: str | None = None):
+def get_tasks():
     conn = get_connection()
     rows = conn.execute(
         "SELECT * FROM tasks"
@@ -83,5 +83,5 @@ def update_tasks(task_id: int):
     )
     conn.commit()
     row = conn.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
-    conn.close
+    conn.close()
     return dict(row)
