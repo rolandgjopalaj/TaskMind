@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Task from "./Task";
+import AddTaskForm from "./AddTaskForm"
 
 const API_URL = "http://127.0.0.1:8000";
 
@@ -35,7 +36,7 @@ function TaskList() {
 
     fetch(`${API_URL}/tasks/${id}`, {"method": "DELETE"})
     .then((res)=>{
-      if(!res) throw new Error()
+      if(!res) throw new Error(`Errore HTTP: ${res.status}`)
       return res.json()
     })
     .then((data)=>{
@@ -53,7 +54,7 @@ function TaskList() {
 
     fetch(`${API_URL}/tasks/${id}`, {"method": "PUT"})
     .then((res)=>{
-      if(!res) throw new Error()
+      if(!res) throw new Error(`Errore HTTP: ${res.status}`)
       return res.json()
     })
     .then((data)=>{
@@ -70,7 +71,7 @@ function TaskList() {
 
     fetch(`${API_URL}/tasks/${id}`, {"method": "PATCH"})
     .then((res)=>{
-      if(!res) throw new Error()
+      if(!res) throw new Error(`Errore HTTP: ${res.status}`)
       return res.json()
     })
     .then((data)=>{
@@ -82,13 +83,39 @@ function TaskList() {
     })
   }
 
+  function addTask({ title, description }) {
+    setError(null)
+
+    fetch(`${API_URL}/tasks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, description })
+    })
+    .then((res) => {
+      if(!res.ok) throw new Error(`Errore HTTP: ${res.status}`)
+      return res.json()
+    })
+    .then((data) => {
+      setTasks(tasks => [...tasks, data])
+    })
+    .catch((err) => {
+      setError(err)
+    })
+  }
 
   if (loading) return <p>Caricamento task...</p>;
   if (error) return <p>Errore nel caricamento dei task: {error}</p>;
-  if (tasks.length === 0) return <p>Nessun task presente.</p>;
+  if (tasks.length === 0) return (
+    <>
+    <AddTaskForm addFunc={addTask}/> 
+    <p>Nessun task presente.</p>
+    </>
+  );
 
   return (
     <div>
+      <AddTaskForm addFunc={addTask}/>
+      <br />
       <h2>I miei task</h2>
       <ul>
         {tasks.map((task)=>(
