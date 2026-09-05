@@ -28,8 +28,60 @@ function TaskList() {
       console.log(err.message)
       setLoading(false)
     })
-
   }
+
+  function deleteTask(id){
+    setError(null)
+
+    fetch(`${API_URL}/tasks/${id}`, {"method": "DELETE"})
+    .then((res)=>{
+      if(!res) throw new Error()
+      return res.json()
+    })
+    .then((data)=>{
+      
+      console.log(data)
+
+      setTasks(tasks => tasks.filter(task => task.id !== id))
+    }).catch((err)=>{
+      setError(err)
+    })
+  }
+
+  function classifyWithAI(id){
+    setError(null)
+
+    fetch(`${API_URL}/tasks/${id}`, {"method": "PUT"})
+    .then((res)=>{
+      if(!res) throw new Error()
+      return res.json()
+    })
+    .then((data)=>{
+      
+      setTasks(tasks => tasks.map(task => task.id === data.id ? data : task))
+      
+    }).catch((err)=>{
+      setError(err)
+    })
+  }
+
+  function completeTask(id){
+    setError(null)
+
+    fetch(`${API_URL}/tasks/${id}`, {"method": "PATCH"})
+    .then((res)=>{
+      if(!res) throw new Error()
+      return res.json()
+    })
+    .then((data)=>{
+      
+      setTasks(tasks => tasks.map(task => task.id === data.id ? data : task))
+
+    }).catch((err)=>{
+      setError(err)
+    })
+  }
+
 
   if (loading) return <p>Caricamento task...</p>;
   if (error) return <p>Errore nel caricamento dei task: {error}</p>;
@@ -41,12 +93,10 @@ function TaskList() {
       <ul>
         {tasks.map((task)=>(
           <Task
-            id = {task.id}
-            title = {task.title}
-            description={task.description}
-            priority={task.priority}
-            category={task.category}
-            completed={task.completed}
+            task={task}
+            classifyFunc={classifyWithAI}
+            deleteFunc={deleteTask}
+            completeFunc={completeTask}
           />
         ))}
       </ul>

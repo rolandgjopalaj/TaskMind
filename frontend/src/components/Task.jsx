@@ -1,16 +1,19 @@
 
-function Task({id, title, description, priority, category, completed}) {
+function Task({task, classifyFunc, deleteFunc, completeFunc}) {
 
     return(
         <>
-        <li key={id}>
-            <strong>{title}</strong>
-                {description && <p>{description}</p>}
+        <li key={task.id}>
+            <button onClick={()=>completeFunc(task.id)}>{task.completed ? "✓" : "X"}</button>
+            <strong>{task.title}</strong>
+                {task.description && <p>{task.description}</p>}
             <small>
-                Categoria: {category || "non classificato"} | Priorità:{" "}
-                {priority || "-"} | Completato:{" "}
-                {completed ? "Sì" : "No"}
+                Categoria: {task.category || "non classificato"} | Priorità:{" "}
+                {task.priority || "-"} | Completato:{" "}
+                {task.completed ? "Sì" : "No"}
             </small>
+            <button onClick={()=>classifyFunc(task.id)}>AI</button>
+            <button onClick={()=>deleteFunc(task.id)}>Delete</button>
         </li>
         </>
     )
