@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react'
 import TaskList from './components/Tasklist'
+import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <TaskList/>
-        
-      
-    </>
+    <div className="app">
+      <header className="app-header">
+        <h1>TaskMind</h1>
+        <p>Scrivi cosa devi fare, il resto lo capisce l'AI.</p>
+      </header>
+
+      <TaskList />
+    </div>
   )
 }
 

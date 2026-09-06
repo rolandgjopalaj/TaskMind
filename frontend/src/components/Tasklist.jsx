@@ -103,31 +103,34 @@ function TaskList() {
     })
   }
 
-  if (loading) return <p>Caricamento task...</p>;
-  if (error) return <p>Errore nel caricamento dei task: {error}</p>;
-  if (tasks.length === 0) return (
-    <>
-    <AddTaskForm addFunc={addTask}/> 
-    <p>Nessun task presente.</p>
-    </>
-  );
-
   return (
-    <div>
-      <AddTaskForm addFunc={addTask}/>
-      <br />
-      <h2>I miei task</h2>
-      <ul>
-        {tasks.map((task)=>(
-          <Task
-            task={task}
-            classifyFunc={classifyWithAI}
-            deleteFunc={deleteTask}
-            completeFunc={completeTask}
-          />
-        ))}
-      </ul>
-    </div>
+    <>
+      <AddTaskForm addFunc={addTask} />
+ 
+      {loading && <p className="task-status">Caricamento task…</p>}
+ 
+      {!loading && error && (
+        <p className="task-status">Errore nel caricamento dei task: {error.message}</p>
+      )}
+ 
+      {!loading && !error && tasks.length === 0 && (
+        <p className="task-empty">Nessun task presente. Aggiungine uno per iniziare.</p>
+      )}
+ 
+      {!loading && !error && tasks.length > 0 && (
+        <ul className="task-list">
+          {tasks.map((task) => (
+            <Task
+              key={task.id}
+              task={task}
+              classifyFunc={classifyWithAI}
+              deleteFunc={deleteTask}
+              completeFunc={completeTask}
+            />
+          ))}
+        </ul>
+      )}
+    </>
   );
 }
 

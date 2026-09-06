@@ -9,26 +9,32 @@ function AddTaskForm({ addFunc }) {
     if (!description.trim()) return;
 
     addFunc({ title, description });
-    
+
     setTitle("");
     setDescription("");
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="add-task-form" onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Titolo"
+        className="field-title"
+        placeholder="Titolo (opzionale)"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+      <div className="divider" />
       <input
         type="text"
-        placeholder="Descrizione"
+        placeholder="Cosa devi fare?"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <button type="submit">Aggiungi task</button>
+      <div className="add-task-form-actions">
+        <button type="submit" disabled={!description.trim()}>
+          Aggiungi task
+        </button>
+      </div>
     </form>
   );
 }

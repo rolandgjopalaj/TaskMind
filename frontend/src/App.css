@@ -1,0 +1,254 @@
+.app {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 72px 24px 96px;
+}
+
+.app-header {
+  margin-bottom: 44px;
+}
+
+.app-header h1 {
+  font-size: 34px;
+  letter-spacing: -0.4px;
+}
+
+.app-header p {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--text-faint);
+}
+
+/* Add task form */
+.add-task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: var(--bg-raised);
+  box-shadow: var(--shadow);
+  margin-bottom: 40px;
+}
+
+.add-task-form input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--sans);
+  color: var(--text-h);
+  padding: 4px 0;
+}
+
+.add-task-form input::placeholder {
+  color: var(--text-faint);
+}
+
+.add-task-form .field-title {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.add-task-form input:not(.field-title) {
+  font-size: 15px;
+}
+
+.add-task-form .divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.add-task-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2px;
+}
+
+.add-task-form button {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.add-task-form button:hover:not(:disabled) {
+  background: var(--accent-strong);
+}
+
+.add-task-form button:disabled {
+  background: var(--border);
+  color: var(--text-faint);
+  cursor: not-allowed;
+}
+
+/* Task list states */
+.task-status,
+.task-empty {
+  padding: 28px 2px;
+  color: var(--text-faint);
+  font-size: 15px;
+  text-align: left;
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* Task row */
+.task-row {
+  display: flex;
+  gap: 14px;
+  padding: 18px 2px;
+  border-bottom: 1px solid var(--border);
+}
+
+.task-row.completed .task-title {
+  color: var(--text-faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--border);
+}
+
+.task-toggle {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.task-toggle:hover {
+  border-color: var(--accent);
+}
+
+.task-toggle.done {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.task-toggle.done svg {
+  width: 11px;
+  height: 11px;
+  stroke: #fff;
+}
+
+.task-body {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.task-title {
+  font-size: 15px;
+  color: var(--text-h);
+  font-weight: 500;
+  display: block;
+}
+
+.task-description {
+  margin-top: 3px;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.task-meta {
+  margin-top: 9px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12.5px;
+  color: var(--text-faint);
+}
+
+.task-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.task-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cat-color, var(--text-faint));
+}
+
+.task-tag.category-lavoro {
+  --cat-color: var(--cat-lavoro);
+}
+.task-tag.category-personale {
+  --cat-color: var(--cat-personale);
+}
+.task-tag.category-studio {
+  --cat-color: var(--cat-studio);
+}
+.task-tag.category-urgente {
+  --cat-color: var(--cat-urgente);
+}
+
+.task-actions {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.task-row:hover .task-actions,
+.task-row:focus-within .task-actions {
+  opacity: 1;
+}
+
+.task-actions button {
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text);
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.task-actions button:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.task-actions .delete-btn:hover {
+  border-color: var(--cat-urgente);
+  color: var(--cat-urgente);
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding: 48px 20px 72px;
+  }
+
+  .app-header h1 {
+    font-size: 28px;
+  }
+
+  .task-actions {
+    opacity: 1;
+  }
+}
